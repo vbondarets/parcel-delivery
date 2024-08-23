@@ -1,9 +1,9 @@
-import { NextFunction, Request, Response } from "express";
-import bcrypt from "bcryptjs";
-import { IUser } from "../types/user.type";
-import UserService from "../services/user.service";
-import ApiError from "../helpers/error/ApiError";
-import { tokenGenerator, verify } from "../utils/jwt/jwt";
+import { NextFunction, Request, Response } from 'express';
+import bcrypt from 'bcryptjs';
+import { IUser } from '../types/user.type';
+import UserService from '../services/user.service';
+import ApiError from '../helpers/error/ApiError';
+import { tokenGenerator, verify } from '../utils/jwt/jwt';
 
 export class AuthController {
   constructor(private userService: UserService) {}
@@ -15,10 +15,10 @@ export class AuthController {
     const user = await this.userService.createUser({
       email,
       password: hasedPassword,
-      full_name,
+      full_name
     });
     if (user) {
-      return res.send({ status: "ok" });
+      return res.send({ status: 'ok' });
     } else {
       return next(ApiError.internal());
     }
@@ -29,21 +29,19 @@ export class AuthController {
     const user = await this.userService.getUserByEmail(email);
     console.log(user);
     if (bcrypt.compareSync(password, user.password)) {
-      const token = tokenGenerator({ ...user, password: "pass", bets: [] });
-      return res.json({ ...user, password: "pass", token });
+      const token = tokenGenerator({ ...user, password: 'pass', bets: [] });
+      return res.json({ ...user, password: 'pass', token });
     }
-    throw ApiError.conflict("Wrong password");
+    throw ApiError.conflict('Wrong password');
   }
 
   async getSelf(req: Request, res: Response) {
     const currUser = req.user;
     if (currUser) {
-      const user = await this.userService.getUserById(
-        currUser.user_id as string
-      );
+      const user = await this.userService.getUserById(currUser.user_id as string);
       if (user) {
-        const token = tokenGenerator({ ...user, password: "pass", bets: [] });
-        return res.json({ ...user, password: "pass", token });
+        const token = tokenGenerator({ ...user, password: 'pass', bets: [] });
+        return res.json({ ...user, password: 'pass', token });
       }
       throw ApiError.notAuth();
     }
