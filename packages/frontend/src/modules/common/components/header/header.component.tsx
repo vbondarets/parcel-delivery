@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 import { IBasicProps } from '../../types/props.types';
 import { Link, useNavigate } from 'react-router-dom';
 import { useUserStore } from '../../../store/user.store';
