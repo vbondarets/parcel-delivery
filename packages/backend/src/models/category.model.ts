@@ -25,6 +25,7 @@ export class Category extends Model<ICategory> {
   category_id!: string;
 
   @AllowNull(false)
+  @Unique(true)
   @Column(DataType.STRING(300))
   name!: string;
 

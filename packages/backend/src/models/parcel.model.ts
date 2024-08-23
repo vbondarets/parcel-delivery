@@ -57,7 +57,7 @@ export class Parcel extends Model<IParcel> {
   category!: Category;
 
   @ForeignKey(() => Category)
-  @AllowNull(false)
+  @AllowNull(true)
   @Column(DataType.UUID)
-  category_id!: string;
+  category_id?: string;
 }

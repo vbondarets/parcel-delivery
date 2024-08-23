@@ -4,23 +4,24 @@ import { wrapper } from '../../middlewares/ctrlWrapper';
 import validation from '../../middlewares/validation';
 import { isAuth } from '../../middlewares/isAuth';
 import parcelController from '../../controller/parcel.controller';
+import parcelSchema from '../../helpers/joiSchemas/parcel.creation.schema';
 
-const authRouter: Router = Router();
+const parcelRouter: Router = Router();
 
-authRouter.get('/', isAuth(), wrapper(parcelController.getAll.bind(parcelController)));
-authRouter.get('/:id', isAuth(), wrapper(parcelController.getById.bind(parcelController)));
-authRouter.post(
+parcelRouter.get('/', isAuth(), wrapper(parcelController.getAll.bind(parcelController)));
+parcelRouter.get('/:id', isAuth(), wrapper(parcelController.getById.bind(parcelController)));
+parcelRouter.post(
   '/',
   isAuth(),
-  // validation(),
+  validation(parcelSchema),
   wrapper(parcelController.create.bind(parcelController))
 );
-authRouter.patch(
+parcelRouter.patch(
   '/:id',
   isAuth(),
-  // validation(),
+  validation(parcelSchema),
   wrapper(parcelController.update.bind(parcelController))
 );
-authRouter.delete('/:id', isAuth(), parcelController.delete.bind(parcelController));
+parcelRouter.delete('/:id', isAuth(), parcelController.delete.bind(parcelController));
 
-export default authRouter;
+export default parcelRouter;

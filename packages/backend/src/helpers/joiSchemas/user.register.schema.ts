@@ -2,6 +2,7 @@ import Joi from 'joi';
 
 const userRegisterSchema = Joi.object({
   id: Joi.string()
+    .guid({ version: ['uuidv4', 'uuidv5'] })
     .messages({
       'string.pattern.base': 'Wrong parametr',
       'string.base': 'ID should be a type of "string"'
