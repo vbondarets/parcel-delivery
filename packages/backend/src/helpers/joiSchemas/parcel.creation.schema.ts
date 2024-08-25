@@ -25,15 +25,13 @@ const parcelSchema = Joi.object({
       'any.required': 'City to is a required field'
     })
     .required(),
-  date_of_despatch: Joi.date()
+  date_of_dispatch: Joi.date()
     .min('now')
     .format(['DD-MM-YYYY'])
     .messages({
       'date.pattern.base': 'Wrong parametr',
-      'date.base': 'Date of despatch should be a type of "date"',
-      'date.max': 'Date of despatch to long',
-      'date.min': 'Date of despatch to short',
-      'any.required': 'Date of despatch is a required field'
+      'date.base': 'Date of dispatch should be a type of "date"',
+      'any.required': 'Date of dispatch is a required field'
     })
     .required(),
   type: Joi.string()
