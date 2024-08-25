@@ -1,8 +1,6 @@
-import DateExtension from '@joi/date';
-import * as JoiImport from 'joi';
+import Joi from 'joi';
 import { EParcelType } from '../../types/parcel.type';
-
-const Joi = JoiImport.extend(DateExtension);
+import moment from 'moment';
 
 const parcelSchema = Joi.object({
   city_from: Joi.string()
@@ -25,13 +23,23 @@ const parcelSchema = Joi.object({
       'any.required': 'City to is a required field'
     })
     .required(),
-  date_of_dispatch: Joi.date()
-    .min('now')
-    .format(['DD-MM-YYYY'])
+  date_of_dispatch: Joi.string()
+    .custom((value: string, helpers: any) => {
+      // Validate the date format using moment
+      if (!moment(value, 'DD-MM-YYYY', true).isValid()) {
+        return helpers.message('Date of dispatch should be in "DD-MM-YYYY" format');
+      }
+      // Check if the date is not earlier than today
+      if (moment(value, 'DD-MM-YYYY').isBefore(moment(), 'day')) {
+        return helpers.message('The date of dispatch cannot be earlier than today');
+      }
+      return value;
+    })
     .messages({
       'date.pattern.base': 'Wrong parametr',
       'date.base': 'Date of dispatch should be a type of "date"',
-      'any.required': 'Date of dispatch is a required field'
+      'any.required': 'Date of dispatch is a required field',
+      'date.min': 'The date of dispatch cannot be earlier than today'
     })
     .required(),
   type: Joi.string()
@@ -44,18 +52,22 @@ const parcelSchema = Joi.object({
     })
     .required(),
   description: Joi.string()
-    .min(3)
-    .max(300)
     .messages({
       'description.base': 'Wrong parametr',
       'description.max': 'Description is to long',
       'description.min': 'Description is to short',
       'any.required': 'Description is a required field'
     })
-    .when('type', {
-      is: Joi.equal(EParcelType['ORDER']),
-      then: Joi.required()
-    }),
+    .when('type', [
+      {
+        is: Joi.equal(EParcelType['ORDER']),
+        then: Joi.required()
+      },
+      {
+        is: Joi.equal(EParcelType['ORDER']),
+        then: Joi.allow(null, '')
+      }
+    ]),
   category_id: Joi.string()
     .guid({ version: ['uuidv4', 'uuidv5'] })
     .min(3)
