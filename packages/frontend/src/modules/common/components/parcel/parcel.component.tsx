@@ -3,7 +3,7 @@ import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { ModalComponent } from '../modal-component';
 import { IParcel } from '../../types/parcel.types';
-import { ParcelForm } from '../parcel-form';
+import { ParcelDialog } from '../parcel-dialog';
 
 interface IProps extends IBasicProps {
   parcel: IParcel;
@@ -69,42 +69,12 @@ const ParcelComponent = ({
           setIsModalOpen(!isModalOpen);
         }}
       >
-        <div className="parcel-dialog">
-          {isEdit ? (
-            <>
-              <ParcelForm actionType="update" parcelType={parcel.type} parcel={parcel} />
-              <div className="buttons-container">
-                <button
-                  className="button red"
-                  onClick={() => {
-                    setIsEdit(false);
-                  }}
-                >
-                  <p>Cancel</p>
-                </button>
-              </div>
-            </>
-          ) : (
-            <div className="buttons-container">
-              <button
-                className="button"
-                onClick={() => {
-                  setIsEdit(true);
-                }}
-              >
-                <p>Edit parcel</p>
-              </button>
-              <button
-                className="button red"
-                onClick={() => {
-                  handleDelete(parcel.parcel_id as string);
-                }}
-              >
-                <p>Delete parcel</p>
-              </button>
-            </div>
-          )}
-        </div>
+        <ParcelDialog
+          isEdit={isEdit}
+          parcel={parcel}
+          handleDelete={handleDelete}
+          setIsEdit={setIsEdit}
+        />
       </ModalComponent>
     </div>
   );
