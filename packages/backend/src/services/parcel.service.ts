@@ -47,6 +47,7 @@ export default class ParcelService {
   }
 
   async update(id: string, data: IParcel, user: IUser): Promise<Parcel> {
+    console.log('update: ', data);
     if (data.type === EParcelType.ORDER) {
       const category = await Category.findOne({ where: { category_id: data.category_id as UUID } });
       if (!category) {
