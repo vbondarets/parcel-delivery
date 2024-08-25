@@ -11,7 +11,7 @@ export interface IParcel {
   date_of_dispatch: string;
   description: string | null;
   type: EParcelType;
-  category?: ICategory;
+  category: ICategory | null;
   category_id: string | null;
   createdAt?: string;
   user_id: string;

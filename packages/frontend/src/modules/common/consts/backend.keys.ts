@@ -8,6 +8,6 @@ export const BACKEND_KEYS = {
     ALL: 'parcel/'
   },
   CATEGORIES: {
-    ALL: 'categories/'
+    ALL: 'category/'
   }
 };
