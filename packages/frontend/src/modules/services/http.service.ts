@@ -1,10 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/consistent-type-definitions */
 import axios from 'axios';
 
 type TConfig<T> = {
@@ -30,15 +25,11 @@ export class HttpSerivce {
 
   private populateTokenToHeaderConfig() {
     return {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
+      Authorization: `Bearer ${localStorage.getItem('token')}`
     };
   }
 
-  private extractUrlAndDataFromConfig<T>({
-    data,
-    url,
-    ...configWithoutDataAndUrl
-  }: TConfig<T>) {
+  private extractUrlAndDataFromConfig<T>({ data, url, ...configWithoutDataAndUrl }: TConfig<T>) {
     return configWithoutDataAndUrl;
   }
 
@@ -46,7 +37,7 @@ export class HttpSerivce {
     if (withAuth) {
       config.headers = {
         ...config.headers,
-        ...this.populateTokenToHeaderConfig(),
+        ...this.populateTokenToHeaderConfig()
       };
     }
     return this.fetchingService.get(
@@ -59,7 +50,7 @@ export class HttpSerivce {
     if (withAuth) {
       config.headers = {
         ...config.headers,
-        ...this.populateTokenToHeaderConfig(),
+        ...this.populateTokenToHeaderConfig()
       };
     }
     return this.fetchingService.post<any>(
@@ -73,7 +64,7 @@ export class HttpSerivce {
     if (withAuth) {
       config.headers = {
         ...config.headers,
-        ...this.populateTokenToHeaderConfig(),
+        ...this.populateTokenToHeaderConfig()
       };
     }
     return this.fetchingService.patch<T>(
@@ -87,7 +78,7 @@ export class HttpSerivce {
     if (withAuth) {
       config.headers = {
         ...config.headers,
-        ...this.populateTokenToHeaderConfig(),
+        ...this.populateTokenToHeaderConfig()
       };
     }
     return this.fetchingService.delete<T>(

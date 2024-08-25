@@ -1,13 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { BACKEND_KEYS } from '../common/consts/backend.keys';
 import { IUser } from '../common/types/user.types';
 import { HttpSerivce } from './http.service';
 
 class AuthService extends HttpSerivce {
-  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
   constructor() {
     super();
   }
@@ -20,7 +15,7 @@ class AuthService extends HttpSerivce {
   }) {
     const response = await this.post({
       url: BACKEND_KEYS.AUTH.REGISTER,
-      data: data,
+      data: data
     });
     return response.data;
   }
@@ -28,14 +23,14 @@ class AuthService extends HttpSerivce {
   async login(data: { email: string; password: string }): Promise<IUser> {
     const response = await this.post({
       url: BACKEND_KEYS.AUTH.LOGIN,
-      data: data,
+      data: data
     });
     return response.data as IUser;
   }
 
   async getSelf(): Promise<IUser> {
     const response = await this.get({
-      url: BACKEND_KEYS.AUTH.SELF,
+      url: BACKEND_KEYS.AUTH.SELF
       // headers: {
       //   Authorazation: `Bearer ${token}`,
       // },
