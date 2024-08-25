@@ -1,13 +1,14 @@
 import { Request, Response } from 'express';
 import ParcelService from '../services/parcel.service';
-import { IParcel } from '../types/parcel.type';
+import { IParcel, TParcelSortQuery } from '../types/parcel.type';
 import { IUser } from '../types/user.type';
 
 export class ParcelController {
   constructor(private parcelService: ParcelService) {}
   async getAll(req: Request, res: Response) {
     const user = req.user;
-    const parcels = await this.parcelService.getAll(user as IUser);
+    const { sort } = req.query;
+    const parcels = await this.parcelService.getAll(user as IUser, sort as TParcelSortQuery);
     return res.json(parcels);
   }
   async getById(req: Request, res: Response) {

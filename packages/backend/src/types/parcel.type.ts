@@ -1,5 +1,6 @@
 import { UUID } from 'crypto';
 import { ICategory } from './category.type';
+import { DateDataType } from 'sequelize';
 
 export enum EParcelType {
   ORDER = 'ORDER',
@@ -9,7 +10,7 @@ export interface IParcel {
   parcel_id?: UUID;
   city_from: string;
   city_to: string;
-  date_of_despatch: string;
+  date_of_dispatch: string;
   description: string | null;
   type: EParcelType;
   category?: ICategory;
@@ -17,3 +18,4 @@ export interface IParcel {
   createdAt?: string;
   user_id: UUID;
 }
+export type TParcelSortQuery = 'default' | 'dispatch';

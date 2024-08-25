@@ -34,8 +34,8 @@ export class Parcel extends Model<IParcel> {
   city_to!: string;
 
   @AllowNull(false)
-  @Column(DataType.STRING(300))
-  date_of_despatch!: string;
+  @Column(DataType.DATE)
+  date_of_dispatch!: string;
 
   @AllowNull(true)
   @Column(DataType.STRING(300))
