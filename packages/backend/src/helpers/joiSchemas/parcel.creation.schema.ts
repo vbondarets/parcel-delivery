@@ -3,6 +3,13 @@ import { EParcelType } from '../../types/parcel.type';
 import moment from 'moment';
 
 const parcelSchema = Joi.object({
+  parcel_id: Joi.string()
+    .guid({ version: ['uuidv4', 'uuidv5'] })
+    .messages({
+      'string.pattern.base': 'Wrong parametr',
+      'string.base': 'ID should be a type of "UUID"'
+    })
+    .optional(),
   city_from: Joi.string()
     .min(2)
     .max(50)
@@ -64,7 +71,7 @@ const parcelSchema = Joi.object({
         then: Joi.required()
       },
       {
-        is: Joi.equal(EParcelType['ORDER']),
+        is: Joi.equal(EParcelType['DELIVER']),
         then: Joi.allow(null, '')
       }
     ]),

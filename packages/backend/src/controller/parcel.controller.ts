@@ -23,12 +23,14 @@ export class ParcelController {
   async update(req: Request, res: Response) {
     const user = req.user;
     const { id } = req.params;
-    return this.parcelService.update(id, req.body as IParcel, user as IUser);
+    await this.parcelService.update(id, req.body as IParcel, user as IUser);
+    return res.json('Ok');
   }
   async delete(req: Request, res: Response) {
     const { id } = req.params;
     const user = req.user;
-    return this.parcelService.delete(id, user as IUser);
+    await this.parcelService.delete(id, user as IUser);
+    return res.json('Ok');
   }
 }
 
