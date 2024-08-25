@@ -1,5 +1,5 @@
 import { BACKEND_KEYS } from '../common/consts/backend.keys';
-import { IUser } from '../common/types/user.types';
+import { ILogin, IRegister, IUser } from '../common/types/user.types';
 import { HttpSerivce } from './http.service';
 
 class AuthService extends HttpSerivce {
@@ -7,12 +7,7 @@ class AuthService extends HttpSerivce {
     super();
   }
 
-  async register(data: {
-    email: string;
-    password: string;
-    password_conf: string;
-    full_name: string;
-  }) {
+  async register(data: IRegister) {
     const response = await this.post({
       url: BACKEND_KEYS.AUTH.REGISTER,
       data: data
@@ -20,7 +15,7 @@ class AuthService extends HttpSerivce {
     return response.data;
   }
 
-  async login(data: { email: string; password: string }): Promise<IUser> {
+  async login(data: ILogin): Promise<IUser> {
     const response = await this.post({
       url: BACKEND_KEYS.AUTH.LOGIN,
       data: data
@@ -31,9 +26,6 @@ class AuthService extends HttpSerivce {
   async getSelf(): Promise<IUser> {
     const response = await this.get({
       url: BACKEND_KEYS.AUTH.SELF
-      // headers: {
-      //   Authorazation: `Bearer ${token}`,
-      // },
     });
     return response.data as IUser;
   }

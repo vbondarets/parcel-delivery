@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { shallow } from 'zustand/shallow';
 import { createWithEqualityFn } from 'zustand/traditional';
 
@@ -14,9 +12,9 @@ export const useAuthStore = createWithEqualityFn<IAuthState>((set) => {
     setIsAuth: (value: boolean): void => {
       set(() => {
         return {
-          isAuth: value,
+          isAuth: value
         };
       });
-    },
+    }
   };
 }, shallow);

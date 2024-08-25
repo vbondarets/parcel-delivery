@@ -2,10 +2,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import axios from 'axios';
 
-type TConfig<T> = {
+type TConfig<T, U> = {
   url: string;
   data?: T;
   headers?: object;
+  params?: { [key: string]: U };
 };
 
 export class HttpSerivce {
@@ -29,11 +30,15 @@ export class HttpSerivce {
     };
   }
 
-  private extractUrlAndDataFromConfig<T>({ data, url, ...configWithoutDataAndUrl }: TConfig<T>) {
+  private extractUrlAndDataFromConfig<T, U>({
+    data,
+    url,
+    ...configWithoutDataAndUrl
+  }: TConfig<T, U>) {
     return configWithoutDataAndUrl;
   }
 
-  get<T>(config: TConfig<T>, withAuth = true) {
+  get<T, U>(config: TConfig<T, U>, withAuth = true) {
     if (withAuth) {
       config.headers = {
         ...config.headers,
@@ -46,7 +51,7 @@ export class HttpSerivce {
     );
   }
 
-  post<T>(config: TConfig<T>, withAuth = true) {
+  post<T, U>(config: TConfig<T, U>, withAuth = true) {
     if (withAuth) {
       config.headers = {
         ...config.headers,
@@ -60,7 +65,7 @@ export class HttpSerivce {
     );
   }
 
-  patch<T>(config: TConfig<T>, withAuth = true) {
+  patch<T, U>(config: TConfig<T, U>, withAuth = true) {
     if (withAuth) {
       config.headers = {
         ...config.headers,
@@ -74,7 +79,7 @@ export class HttpSerivce {
     );
   }
 
-  delete<T>(config: TConfig<T>, withAuth = true) {
+  delete<T, U>(config: TConfig<T, U>, withAuth = true) {
     if (withAuth) {
       config.headers = {
         ...config.headers,
