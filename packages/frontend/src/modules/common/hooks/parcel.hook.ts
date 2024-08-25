@@ -15,6 +15,10 @@ type TUseParcelReturn = {
   isParcelCreationLoading: boolean;
   handleParcelUpdate: (data: IParcel) => void;
   isParcelUpdateLoading: boolean;
+  handleParcelDelete: (id: string) => void;
+  isParcelDeleteLoading: boolean;
+  isParcelDeleteSuccess: boolean;
+  isParcelUpdateSuccess: boolean;
 };
 
 export const useParcel = (): TUseParcelReturn => {
@@ -52,9 +56,34 @@ export const useParcel = (): TUseParcelReturn => {
       }
     }
   });
-  const { mutate: parcelUpdateMutation, isLoading: isParcelUpdateLoading } = useMutation({
+  const {
+    mutate: parcelUpdateMutation,
+    isLoading: isParcelUpdateLoading,
+    isSuccess: isParcelUpdateSuccess
+  } = useMutation({
     mutationFn: (data: IParcel) => {
       return parcelService.update(data.parcel_id as string, data);
+    },
+    onSuccess: () => {
+      client.invalidateQueries([QUERY_KEYS.PARCELS]);
+    },
+    onError: (error) => {
+      if (isAxiosError(error)) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Request error',
+          text: error.response?.data.message as string
+        });
+      }
+    }
+  });
+  const {
+    mutate: parcelDeleteMutation,
+    isLoading: isParcelDeleteLoading,
+    isSuccess: isParcelDeleteSuccess
+  } = useMutation({
+    mutationFn: (id: string) => {
+      return parcelService.deleteParcel(id);
     },
     onSuccess: () => {
       client.invalidateQueries([QUERY_KEYS.PARCELS]);
@@ -75,6 +104,9 @@ export const useParcel = (): TUseParcelReturn => {
   const handleParcelUpdate = (data: IParcel) => {
     parcelUpdateMutation(data);
   };
+  const handleParcelDelete = (id: string) => {
+    parcelDeleteMutation(id);
+  };
 
   return {
     parcels,
@@ -83,6 +115,10 @@ export const useParcel = (): TUseParcelReturn => {
     handleParcelCreate,
     isParcelCreationLoading,
     isParcelUpdateLoading,
-    handleParcelUpdate
+    handleParcelUpdate,
+    isParcelDeleteLoading,
+    handleParcelDelete,
+    isParcelDeleteSuccess,
+    isParcelUpdateSuccess
   };
 };

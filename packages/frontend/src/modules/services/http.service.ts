@@ -79,6 +79,20 @@ export class HttpSerivce {
     );
   }
 
+  put<T, U>(config: TConfig<T, U>, withAuth = true) {
+    if (withAuth) {
+      config.headers = {
+        ...config.headers,
+        ...this.populateTokenToHeaderConfig()
+      };
+    }
+    return this.fetchingService.patch<T>(
+      this.getFullApiUrl(config.url),
+      config.data,
+      this.extractUrlAndDataFromConfig(config)
+    );
+  }
+
   delete<T, U>(config: TConfig<T, U>, withAuth = true) {
     if (withAuth) {
       config.headers = {

@@ -29,4 +29,27 @@ export const Parcel = styled(ParcelComponent)`
     flex-direction: column;
     align-items: center;
   }
+  .buttons-container {
+    display: flex;
+    gap: 20px;
+  }
+  .button {
+    width: 220px;
+    border-radius: 500px;
+    border: none;
+    background-color: #424264;
+    transition: all 0.2s;
+    .red {
+      background-color: #ff2e2e;
+    }
+    &:hover {
+      background-color: #545483;
+    }
+    p {
+      color: white;
+      text-decoration: none;
+      font-weight: 900;
+      font-size: 16px;
+    }
+  }
 `;

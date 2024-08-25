@@ -1,15 +1,31 @@
 import { IBasicProps } from '../../types/props.types';
 import moment from 'moment-timezone';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ModalComponent } from '../modal-component';
 import { IParcel } from '../../types/parcel.types';
+import { ParcelForm } from '../parcel-form';
 
 interface IProps extends IBasicProps {
   parcel: IParcel;
+  handleDelete: (id: string) => void;
+  isUpdateSuccess?: boolean;
+  isDeleteSuccess?: boolean;
 }
 
-const ParcelComponent = ({ className, parcel }: IProps) => {
+const ParcelComponent = ({
+  className,
+  parcel,
+  isUpdateSuccess,
+  isDeleteSuccess,
+  handleDelete
+}: IProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  useEffect(() => {
+    if (isUpdateSuccess || isDeleteSuccess) {
+      setIsModalOpen(false);
+    }
+  }, [isUpdateSuccess, isDeleteSuccess]);
 
   return (
     <div className={className}>
@@ -49,10 +65,46 @@ const ParcelComponent = ({ className, parcel }: IProps) => {
       <ModalComponent
         isOpen={isModalOpen}
         setIsOpen={() => {
+          setIsEdit(false);
           setIsModalOpen(!isModalOpen);
         }}
       >
-        <></>
+        <div className="parcel-dialog">
+          {isEdit ? (
+            <>
+              <ParcelForm actionType="update" parcelType={parcel.type} parcel={parcel} />
+              <div className="buttons-container">
+                <button
+                  className="button red"
+                  onClick={() => {
+                    setIsEdit(false);
+                  }}
+                >
+                  <p>Cancel</p>
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className="buttons-container">
+              <button
+                className="button"
+                onClick={() => {
+                  setIsEdit(true);
+                }}
+              >
+                <p>Edit parcel</p>
+              </button>
+              <button
+                className="button red"
+                onClick={() => {
+                  handleDelete(parcel.parcel_id as string);
+                }}
+              >
+                <p>Delete parcel</p>
+              </button>
+            </div>
+          )}
+        </div>
       </ModalComponent>
     </div>
   );
