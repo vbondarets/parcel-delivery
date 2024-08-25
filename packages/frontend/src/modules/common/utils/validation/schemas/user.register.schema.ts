@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-const userRegisterSchema = Joi.object({
+export const userRegisterSchema = Joi.object({
   id: Joi.string()
     .guid({ version: ['uuidv4', 'uuidv5'] })
     .messages({
@@ -44,5 +44,3 @@ const userRegisterSchema = Joi.object({
     .required(),
   password_conf: Joi.string().min(3).valid(Joi.ref('password'))
 });
-
-export default userRegisterSchema;

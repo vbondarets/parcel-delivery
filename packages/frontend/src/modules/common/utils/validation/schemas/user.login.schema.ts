@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-const userLoginSchema = Joi.object({
+export const userLoginSchema = Joi.object({
   email: Joi.string()
     .min(5)
     .max(50)
@@ -26,5 +26,3 @@ const userLoginSchema = Joi.object({
     })
     .required()
 });
-
-export default userLoginSchema;
