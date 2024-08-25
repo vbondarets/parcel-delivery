@@ -1,0 +1,12 @@
+{
+  "name": "parcel-delivery",
+  "version": "1.0.0",
+  "description": "You have to create an application that allows users to create a request for the transportation of your parcel or deliver another user's package.",
+  "repository": "git@github.com:vbondarets/parcel-delivery.git",
+  "author": "vbondarets <bondaretsdirect@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "start": "docker compose up"
+  }
+}
