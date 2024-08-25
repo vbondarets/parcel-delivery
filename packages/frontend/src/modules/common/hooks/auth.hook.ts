@@ -10,6 +10,7 @@ import { ILogin, IRegister } from '../types/user.types';
 
 type TUseAuthReturn = {
   isLoginLoading: boolean;
+  isRegisterLoading: boolean;
   handleLogin: (data: ILogin) => void;
   handleRegister: (data: IRegister) => void;
   handleLogout: () => void;
@@ -56,13 +57,22 @@ export const useAuth = (): TUseAuthReturn => {
       removeToken();
     }
   });
-  const { mutate: RegisterMutation } = useMutation({
+  const { mutate: RegisterMutation, isLoading: isRegisterLoading } = useMutation({
     mutationFn: (data: IRegister) => {
       return authService.register(data);
     },
     onSuccess: (data) => {
       if (data.status === 'ok') {
         navigate('/login');
+      }
+    },
+    onError: (error) => {
+      if (isAxiosError(error)) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Request error',
+          text: error.response?.data.message as string
+        });
       }
     }
   });
@@ -75,5 +85,5 @@ export const useAuth = (): TUseAuthReturn => {
   const handleRegister = (data: IRegister) => {
     RegisterMutation(data);
   };
-  return { handleLogin, isLoginLoading, handleRegister, handleLogout };
+  return { handleLogin, isLoginLoading, handleRegister, handleLogout, isRegisterLoading };
 };

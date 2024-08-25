@@ -1,18 +1,14 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-empty-interface */
-import { useEffect, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-empty-object-type */
+
+import { useState } from 'react';
 import { IBasicProps } from '../../common/types/props.types';
 import { Formik, Form } from 'formik';
 import { Input } from '../../common/components/input';
 import { Link } from 'react-router-dom';
-import { useRegister } from '../../common/hooks';
-import { isAxiosError } from 'axios';
 import { onSubmit } from '../../common/utils/onSubmit/onSubmit';
-import userSchema from '../../common/utils/validation/schemas/user.schema';
-import Swal from 'sweetalert2';
 import { DNA } from 'react-loader-spinner';
+import { userRegisterSchema } from '../../common/utils/validation/schemas';
+import { useAuth, useError } from '../../common/hooks';
 
 interface IProps extends IBasicProps {}
 const RegisterPageContainer = ({ className }: IProps) => {
@@ -20,34 +16,8 @@ const RegisterPageContainer = ({ className }: IProps) => {
   const [fullName, setFullName] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConf, setPasswordConf] = useState('');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const { mutate: register, error, isPending } = useRegister();
-
-  useEffect(() => {
-    setIsLoading(isPending);
-  }, [isPending]);
-  useEffect(() => {
-    if (errorMessage) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Validation error',
-        text: errorMessage,
-      });
-    }
-  }, [errorMessage]);
-
-  useEffect(() => {
-    if (error && error instanceof Error) {
-      if (isAxiosError(error)) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Request error',
-          text: error.response?.data.message as string,
-        });
-      }
-    }
-  }, [error]);
+  const { handleRegister, isRegisterLoading } = useAuth();
+  const { handleError } = useError();
   return (
     <div className={className}>
       <div className="login-form-container">
@@ -57,63 +27,45 @@ const RegisterPageContainer = ({ className }: IProps) => {
             email: email,
             password: password,
             passwordConf: passwordConf,
-            fullName: fullName,
+            fullName: fullName
           }}
           onSubmit={() => {
             onSubmit(
-              userSchema,
+              userRegisterSchema,
               {
                 email: email,
                 password: password,
                 password_conf: passwordConf,
-                full_name: fullName,
+                full_name: fullName
               },
-              setErrorMessage,
+              handleError,
               () => {
-                register({
+                handleRegister({
                   email: email,
                   password: password,
                   password_conf: passwordConf,
-                  full_name: fullName,
+                  full_name: fullName
                 });
               }
             );
           }}
         >
           <Form className="login-form">
-            <Input
-              label="Email"
-              value={email}
-              setValue={setEmail}
-              type="email"
-            />
-            <Input
-              label="Fullname"
-              value={fullName}
-              setValue={setFullName}
-              type="text"
-            />
-            <Input
-              label="Password"
-              value={password}
-              setValue={setPassword}
-              type="password"
-            />
+            <Input label="Email" value={email} setValue={setEmail} type="email" />
+            <Input label="Fullname" value={fullName} setValue={setFullName} type="text" />
+            <Input label="Password" value={password} setValue={setPassword} type="password" />
             <Input
               label="Password Confirmation"
               value={passwordConf}
               setValue={setPasswordConf}
               type="password"
             />
-            {/* {errorMessage && <p className="form-error">{errorMessage}</p>} */}
-            <button type="submit" className="login-form-button">
-              {isLoading ? (
+            <button type="submit" className="login-form-button" disabled={isRegisterLoading}>
+              {isRegisterLoading ? (
                 <DNA
                   height="40"
                   width="40"
                   visible={true}
-                  // radius="9"
-                  // color="green"
                   ariaLabel="three-dots-loading"
                   wrapperStyle={{}}
                   wrapperClass="login-button-loader"
@@ -123,9 +75,7 @@ const RegisterPageContainer = ({ className }: IProps) => {
               )}
             </button>
             <div className="login-additional">
-              <p className="login-additional-text">
-                {"Don't have acount yet?"}
-              </p>
+              <p className="login-additional-text">{"Don't have acount yet?"}</p>
               <Link to="/login" className="link">
                 Go to login
               </Link>

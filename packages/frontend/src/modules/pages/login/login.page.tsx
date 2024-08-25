@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-empty-object-type */
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { IBasicProps } from '../../common/types/props.types';
 import { Formik, Form } from 'formik';
 import { Input } from '../../common/components/input';
 import { Link } from 'react-router-dom';
 import { onSubmit } from '../../common/utils/onSubmit/onSubmit';
-import userSchema from '../../common/utils/validation/schemas/user.login.schema';
 import { useAuth, useError } from '../../common/hooks';
 import { DNA } from 'react-loader-spinner';
+import { userLoginSchema } from '../../common/utils/validation/schemas';
 
 interface IProps extends IBasicProps {}
 
@@ -16,11 +16,6 @@ const LoginPageContainer = ({ className }: IProps) => {
   const [password, setPassword] = useState('');
   const { handleLogin, isLoginLoading } = useAuth();
   const { handleError } = useError();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    setIsLoading(isLoginLoading);
-  }, [isLoginLoading]);
 
   return (
     <div className={className}>
@@ -33,7 +28,7 @@ const LoginPageContainer = ({ className }: IProps) => {
           }}
           onSubmit={() => {
             onSubmit(
-              userSchema,
+              userLoginSchema,
               {
                 email: email,
                 password: password
@@ -48,8 +43,8 @@ const LoginPageContainer = ({ className }: IProps) => {
           <Form className="login-form">
             <Input label="Email" value={email} setValue={setEmail} type="email" />
             <Input label="Password" value={password} setValue={setPassword} type="password" />
-            <button type="submit" className="login-form-button" disabled={isLoading}>
-              {isLoading ? (
+            <button type="submit" className="login-form-button" disabled={isLoginLoading}>
+              {isLoginLoading ? (
                 <DNA
                   height="40"
                   width="40"
