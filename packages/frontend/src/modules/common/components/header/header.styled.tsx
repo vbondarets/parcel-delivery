@@ -21,9 +21,6 @@ export const Header = styled(HeaderComponent)`
     height: 100%;
     justify-content: space-between;
   }
-  .image {
-    height: 100%;
-  }
   .link-container {
     display: flex;
     flex-direction: 'row';
@@ -57,7 +54,26 @@ export const Header = styled(HeaderComponent)`
       font-weight: 900;
     }
   }
+  .logout-button {
+    padding-inline: 26px;
+    background-color: #424264;
+    border: 0px;
+    transition: all 0.2s;
+    border-radius: 30px;
+    text-align: center;
+    padding-bottom: 3px;
+    &:hover {
+      background-color: #545483;
+    }
+    p {
+      color: white;
+      text-decoration: none;
+      font-weight: 900;
+    }
+    cursor: pointer;
+  }
   .empty-container {
     width: 113px;
+    margin-left: auto;
   }
 `;

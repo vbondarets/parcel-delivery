@@ -1,4 +1,2 @@
-export * from './register.query';
-export * from './login.query';
-export * from './getSelf.query';
-export * from './logOut.query';
+export * from './auth.hook';
+export * from './error.hook';

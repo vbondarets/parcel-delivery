@@ -1,23 +1,37 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import './App.css';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryCache, QueryClient, QueryClientProvider } from 'react-query';
 import { MainRouter } from './modules/navigation';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import { BrowserRouter } from 'react-router-dom';
 
 function App() {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
-        refetchOnReconnect: true
+        keepPreviousData: true,
+        refetchOnReconnect: true,
+        cacheTime: Number.POSITIVE_INFINITY
       }
-    }
+    },
+    queryCache: new QueryCache({
+      onError: async (error: any, query) => {
+        if (query.state.data !== undefined) {
+          console.error(`Something went wrong: ${error.message}`);
+        }
+        if (error.response) {
+          console.log(error.response.status, '🟡 query');
+        }
+      }
+    })
   });
 
   return (
     <QueryClientProvider client={queryClient}>
-      <MainRouter />
-      <ReactQueryDevtools initialIsOpen={false} />
+      <BrowserRouter>
+        <MainRouter />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </BrowserRouter>
     </QueryClientProvider>
   );
 }

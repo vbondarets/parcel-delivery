@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { Schema } from 'joi';
 import validation from '../validation/validation';
 import { setError } from '../setError/setError';
@@ -6,7 +5,7 @@ import { setError } from '../setError/setError';
 export const onSubmit = (
   schema: Schema,
   body: object,
-  setErrorMessage: React.Dispatch<React.SetStateAction<string>>,
+  setErrorMessage: (error: string) => void,
   callback: () => void
 ) => {
   const result = validation(schema, body);

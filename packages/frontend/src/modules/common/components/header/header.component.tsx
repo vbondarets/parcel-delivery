@@ -2,32 +2,36 @@
 import { IBasicProps } from '../../types/props.types';
 import { Link, useNavigate } from 'react-router-dom';
 import { useUserStore } from '../../../store/user.store';
+import { useAuth } from '../../hooks';
 
 interface IProps extends IBasicProps {}
 
 const HeaderComponent = ({ className }: IProps) => {
   const { user } = useUserStore();
   const navigate = useNavigate();
+  const { handleLogout } = useAuth();
   return (
     <div className={className}>
       <div className="container">
-        <div className="link-container">
-          <Link className="link" to="/requests">
-            REQUESTS
-          </Link>
-          <Link className="link" to="/create">
-            CREATE
-          </Link>
-        </div>
+        {user && (
+          <div className="link-container">
+            <Link className="link" to="/requests">
+              REQUESTS
+            </Link>
+            <Link className="link" to="/create">
+              CREATE
+            </Link>
+          </div>
+        )}
         {user ? (
           <button
-            className="account-button"
+            className="logout-button"
             onClick={(e) => {
               e.preventDefault();
-              navigate('/request');
+              handleLogout();
             }}
           >
-            <p>Account</p>
+            <p>Log Out</p>
           </button>
         ) : (
           <div className="empty-container">

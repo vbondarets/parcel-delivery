@@ -1,7 +1,4 @@
-export const setError = (
-  message: string,
-  setErrorMessage: (value: React.SetStateAction<string>) => void
-) => {
+export const setError = (message: string, setErrorMessage: (value: string) => void) => {
   setErrorMessage(message);
   setTimeout(() => {
     setErrorMessage('');
