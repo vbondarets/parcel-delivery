@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { IBasicProps } from '../../types/props.types';
@@ -8,7 +7,9 @@ import VisibilitySharpIcon from '@mui/icons-material/VisibilitySharp';
 interface IProps extends IBasicProps {
   placeholder?: string;
   value: string | boolean;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
+  setValue:
+    | React.Dispatch<React.SetStateAction<string>>
+    | React.Dispatch<React.SetStateAction<string | null>>;
   label?: string;
   type?:
     | 'button'
@@ -39,7 +40,7 @@ export const InputComponent = ({
   errorMassege,
   contentClassName,
   disabled,
-  maxNum,
+  maxNum
 }: IProps) => {
   const [id] = useState(crypto.randomUUID());
   const [error, setError] = useState(errorMassege);
@@ -71,13 +72,7 @@ export const InputComponent = ({
         <div className="input-wrapper">
           <input
             style={{ backgroundColor: 'transparent' }}
-            type={
-              type && type === 'password'
-                ? !isPasswordShown
-                  ? type
-                  : 'text'
-                : type
-            }
+            type={type && type === 'password' ? (!isPasswordShown ? type : 'text') : type}
             id={id}
             // ref={inputRef}
             name={name && name}

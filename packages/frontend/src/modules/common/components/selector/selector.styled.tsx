@@ -4,7 +4,9 @@ import { SelectorComponent } from './selector.component';
 export const Selector = styled(SelectorComponent)`
   display: flex;
   justify-content: left;
-  .slector-container {
+  .select-form {
+    padding: 0px;
+    margin: 0px;
   }
   .select-form > label {
     color: white;
