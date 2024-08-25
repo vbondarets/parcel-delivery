@@ -10,7 +10,7 @@ import { useUserStore } from '../../store/user.store';
 interface IProps extends IBasicProps {}
 const MainPageContainer = ({ className }: IProps) => {
   const { user } = useUserStore();
-  const { parcels, sort, setSort } = useParcel();
+  const { parcels, sort, setSort, handleParcelDelete } = useParcel();
   return (
     <div className={className}>
       <div className="main-container">
@@ -29,7 +29,13 @@ const MainPageContainer = ({ className }: IProps) => {
           <div className="parcels-container"></div>
           {parcels &&
             parcels.map((parcel) => {
-              return <Parcel parcel={parcel} key={'parcel' + parcel.parcel_id} />;
+              return (
+                <Parcel
+                  parcel={parcel}
+                  key={'parcel' + parcel.parcel_id}
+                  handleDelete={handleParcelDelete}
+                />
+              );
             })}
         </div>
       </div>

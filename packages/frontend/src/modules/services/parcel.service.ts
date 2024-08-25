@@ -24,7 +24,7 @@ class ParcelService extends HttpSerivce {
     return response.data as IParcel;
   }
   async update(id: string, data: IParcel): Promise<IParcel> {
-    const response = await this.post({
+    const response = await this.patch({
       url: `${BACKEND_KEYS.PARCEL.ALL + id}`,
       data
     });

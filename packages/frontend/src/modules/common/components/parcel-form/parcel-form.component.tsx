@@ -11,6 +11,7 @@ import { useError } from '../../hooks';
 import { DNA } from 'react-loader-spinner';
 import { Selector } from '../selector';
 import { useCategory } from '../../hooks/category.hook';
+import moment from 'moment';
 
 interface IProps extends IBasicProps {
   parcelType: EParcelType;
@@ -28,7 +29,9 @@ const ParcelFormComponent = ({ className, parcel, parcelType, actionType }: IPro
   const [category, setCategory] = useState<ICategory | null>(
     parcel ? (parcel.category as ICategory) : null
   );
-  const [dateOfDispatch, setDateOfDispatch] = useState(parcel ? parcel.date_of_dispatch : null);
+  const [dateOfDispatch, setDateOfDispatch] = useState(
+    parcel ? moment(parcel.date_of_dispatch).format('DD-MM-YYYY') : null
+  );
   const [description, setDescription] = useState(parcel ? parcel.description : null);
   const [type, setType] = useState(parcel ? parcel.type : parcelType);
   return (
@@ -45,6 +48,7 @@ const ParcelFormComponent = ({ className, parcel, parcelType, actionType }: IPro
             type: type
           }}
           onSubmit={() => {
+            console.log(type);
             onSubmit(
               parcelSchema,
               {

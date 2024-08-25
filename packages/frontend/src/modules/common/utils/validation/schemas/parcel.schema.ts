@@ -67,7 +67,7 @@ const parcelSchema = Joi.object({
         then: Joi.required()
       },
       {
-        is: Joi.equal(EParcelType['ORDER']),
+        is: Joi.equal(EParcelType['DELIVER']),
         then: Joi.allow(null, '')
       }
     ]),
