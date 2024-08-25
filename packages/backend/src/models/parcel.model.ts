@@ -39,7 +39,7 @@ export class Parcel extends Model<IParcel> {
 
   @AllowNull(true)
   @Column(DataType.STRING(300))
-  description?: string;
+  description?: string | null;
 
   @AllowNull(false)
   @Column(DataTypes.STRING)
@@ -59,5 +59,5 @@ export class Parcel extends Model<IParcel> {
   @ForeignKey(() => Category)
   @AllowNull(true)
   @Column(DataType.UUID)
-  category_id?: string;
+  category_id?: string | null;
 }

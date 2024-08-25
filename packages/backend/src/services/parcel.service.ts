@@ -60,9 +60,9 @@ export default class ParcelService {
         ...data,
         date_of_dispatch: moment(data.date_of_dispatch, 'DD-MM-YYYY').utc().format()
       });
-      if (data.type === EParcelType.ORDER) {
-        parcel.category_id = undefined;
-        parcel.description = undefined;
+      if (data.type === EParcelType.DELIVER) {
+        parcel.category_id = null;
+        parcel.description = null;
       }
       await parcel.save();
       return parcel;
